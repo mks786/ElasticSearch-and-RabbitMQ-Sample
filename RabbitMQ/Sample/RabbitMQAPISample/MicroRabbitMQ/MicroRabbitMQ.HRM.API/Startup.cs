@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using MediatR;
 using MicroRabbitMQ.HRM.Data.Context;
 using MicroRabbitMQ.Infra.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace MicroRabbitMQ.HRM.API
 {
@@ -38,6 +33,14 @@ namespace MicroRabbitMQ.HRM.API
 
             //services.AddControllers();
             services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HRM", Version = "v1" });
+            });
+
+            services.AddMediatR(typeof(Startup));
+
             RegisterServices(services);
         }
 
@@ -55,6 +58,11 @@ namespace MicroRabbitMQ.HRM.API
             }
 
             app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HRM Microservice V1");
+            });
 
             app.UseRouting();
 
