@@ -1,4 +1,6 @@
-﻿using MicroRabbitMQ.HRM.Application.Interfaces;
+﻿using MicroRabbitMQ.Domain.Core.Bus;
+using MicroRabbitMQ.HRM.Application.Interfaces;
+using MicroRabbitMQ.HRM.Domain.Commands;
 using MicroRabbitMQ.HRM.Domain.Interfaces;
 using MicroRabbitMQ.HRM.Domain.Models;
 using System;
@@ -10,10 +12,12 @@ namespace MicroRabbitMQ.HRM.Application.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IEventBus _bus;
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, IEventBus bus)
         {
             _employeeRepository = employeeRepository;
+            _bus = bus;
         }
         public IEnumerable<Employee> GetEmployees()
         {
@@ -25,14 +29,23 @@ namespace MicroRabbitMQ.HRM.Application.Services
             return _employeeRepository.GetEmployeeById(Id);
         }
 
-        public Employee InsertEmployee(Employee employee)
+        public void InsertEmployee(Employee employee)
         {
-            return _employeeRepository.InsertEmployee(employee);
+            var createNewEmployee = new CreateNewEmployeeCommand(employee.FirstName,
+                                                          employee.LastName,
+                                                          employee.Age,
+                                                          employee.Salary);
+            _bus.SendCommand(createNewEmployee);
         }
 
-        public Employee UpdateEmployee(int Id, Employee employee)
+        public void UpdateEmployee(int Id, Employee employee)
         {
-            return _employeeRepository.UpdateEmployee(Id, employee);
+            var createNewEmployee = new UpdateNewEmployeeCommand(employee.Id,
+                                                                 employee.FirstName,
+                                                                 employee.LastName,
+                                                                 employee.Age,
+                                                                 employee.Salary);
+            _bus.SendCommand(createNewEmployee);
         }
 
         public bool DeleteEmployee(int Id)

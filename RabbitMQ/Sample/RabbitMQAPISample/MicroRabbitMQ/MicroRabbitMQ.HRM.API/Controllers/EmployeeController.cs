@@ -36,16 +36,18 @@ namespace MicroRabbitMQ.HRM.API.Controllers
 
         // POST: api/Employee
         [HttpPost]
-        public ActionResult<Employee> Post([FromBody] Employee employee)
+        public IActionResult Post([FromBody] Employee employee)
         {
-            return Ok(_employeeService.InsertEmployee(employee));
+            _employeeService.InsertEmployee(employee);
+            return Ok(employee);
         }
 
         // PUT: api/Employee/5
         [HttpPut("{id}")]
-        public ActionResult<Employee> Put(int id, [FromBody] Employee employee)
+        public IActionResult Put(int id, [FromBody] Employee employee)
         {
-            return Ok(_employeeService.UpdateEmployee(id, employee));
+            _employeeService.UpdateEmployee(id, employee);
+            return Ok(employee);
         }
 
         // DELETE: api/ApiWithActions/5

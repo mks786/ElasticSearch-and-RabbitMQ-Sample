@@ -27,18 +27,16 @@ namespace MicroRabbitMQ.HRM.Data.Repository
             return _context.Employees.Find(Id);
         }
 
-        public Employee InsertEmployee(Employee employee)
+        public void InsertEmployee(Employee employee)
         {
             _context.Add(employee);
             _context.SaveChanges();
-            return employee;
         }
 
-        public Employee UpdateEmployee(int Id, Employee employee)
+        public void UpdateEmployee(int Id, Employee employee)
         {
             _context.Update(employee);
             _context.SaveChanges();
-            return employee;
         }
 
         public bool DeleteEmployee(int id)

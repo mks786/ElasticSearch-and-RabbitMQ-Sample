@@ -9,8 +9,8 @@ namespace MicroRabbitMQ.HRM.Application.Interfaces
     {
         IEnumerable<Employee> GetEmployees();
         Employee GetEmployeeById(int Id);
-        Employee InsertEmployee(Employee employee);
-        Employee UpdateEmployee(int Id, Employee employee);
+        void InsertEmployee(Employee employee);
+        void UpdateEmployee(int Id, Employee employee);
         bool DeleteEmployee(int id);
     }
 }
