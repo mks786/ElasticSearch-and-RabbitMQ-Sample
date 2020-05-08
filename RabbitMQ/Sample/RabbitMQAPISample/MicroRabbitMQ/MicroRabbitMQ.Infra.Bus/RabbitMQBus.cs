@@ -100,7 +100,8 @@ namespace MicroRabbitMQ.Infra.Bus
         private async Task Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
             var eventName = e.RoutingKey;
-            var message = Encoding.UTF8.GetString(e.Body.ToArray());
+            var body = e.Body.ToArray();
+            var message = Encoding.UTF8.GetString(body);
 
             try
             {
