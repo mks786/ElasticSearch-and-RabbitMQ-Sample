@@ -6,7 +6,9 @@ Reposistory having samples of the Rabbit Messeging Queue and Elastic Search. Bel
 
 # RabbitMQ
 Download the following to Proceed with RabbitMQ:
-[Download and install ERLANG Latest version](https://www.erlang.org/downloads)
+
+[Download and install ERLANG Latest version](https://www.erlang.org/downloads),
+
 [Download and install RabbitMQ Latest Version](https://www.rabbitmq.com/download.html)
 
 Default port for the RabbitMQ: http://localhost:15672/
