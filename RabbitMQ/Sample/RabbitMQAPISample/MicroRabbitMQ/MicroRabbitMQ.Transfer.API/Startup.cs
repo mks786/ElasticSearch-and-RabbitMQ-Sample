@@ -1,15 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
+using MediatR;
+using MicroRabbitMQ.Domain.Core.Bus;
+using MicroRabbitMQ.Infra.IoC;
+using MicroRabbitMQ.Transfer.Data.Context;
+using MicroRabbitMQ.Transfer.Domain.EventHandlers;
+using MicroRabbitMQ.Transfer.Domain.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace MicroRabbitMQ.Transfer.API
 {
@@ -25,7 +27,29 @@ namespace MicroRabbitMQ.Transfer.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            var connectionString = Configuration.GetConnectionString("TransferDbConnection");
+            services.AddDbContext<TransferDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString, x => x.MigrationsAssembly("MicroRabbitMQ.Transfer.Data"));
+            });
+
+            //services.AddControllers();
+            services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Transfer", Version = "v1" });
+            });
+
+            services.AddMediatR(typeof(Startup));
+
+            RegisterServices(services);
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
+            DependencyContainer.RegisterServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +61,13 @@ namespace MicroRabbitMQ.Transfer.API
             }
 
             app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Transfer Microservice V1");
+            });
 
+            ConfigureEventBus(app);
             app.UseRouting();
 
             app.UseAuthorization();
@@ -46,6 +76,12 @@ namespace MicroRabbitMQ.Transfer.API
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscriber<NewEmployeeCreatedEvent, TransferEventHandler>();
         }
     }
 }
