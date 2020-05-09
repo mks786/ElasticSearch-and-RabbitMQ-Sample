@@ -11,7 +11,10 @@ Download the following to Proceed with RabbitMQ:
 
 [Download and install RabbitMQ Latest Version](https://www.rabbitmq.com/download.html)
 
-Default port for the RabbitMQ: http://localhost:15672/
+Default port for the RabbitMQ: 
+
+http://localhost:15672/
+
 Default Username and Password: guest
 
 Some useful commands just for startups.
@@ -51,5 +54,6 @@ rabbitmqctl set_permissions -p / Kashif ".*" ".*" ".*"
 
 # Elasticsearch
 [Download Elasticsearch in your system](https://www.elastic.co/downloads/)
+
 Download the following from there
 1. Kibana
