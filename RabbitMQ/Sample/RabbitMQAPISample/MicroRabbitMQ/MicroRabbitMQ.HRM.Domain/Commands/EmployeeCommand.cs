@@ -5,8 +5,9 @@ using System.Text;
 
 namespace MicroRabbitMQ.HRM.Domain.Commands
 {
-    public class NewEmployeeCommand : Command
+    public class EmployeeCommand : Command
     {
+        public int Id { get; protected set; }
         public string FirstName { get; protected set; }
         public string LastName { get; protected set; }
         public int Age { get; protected set; }

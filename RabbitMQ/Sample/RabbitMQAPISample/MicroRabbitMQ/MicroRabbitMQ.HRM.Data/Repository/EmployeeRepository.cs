@@ -26,25 +26,5 @@ namespace MicroRabbitMQ.HRM.Data.Repository
         {
             return _context.Employees.Find(Id);
         }
-
-        public void InsertEmployee(Employee employee)
-        {
-            _context.Add(employee);
-            _context.SaveChanges();
-        }
-
-        public void UpdateEmployee(int Id, Employee employee)
-        {
-            _context.Update(employee);
-            _context.SaveChanges();
-        }
-
-        public bool DeleteEmployee(int id)
-        {
-            var employee = _context.Employees.FirstOrDefault(m => m.Id == id);
-            _context.Employees.Remove(employee);
-            _context.SaveChanges();
-            return true;
-        }
     }
 }

@@ -38,23 +38,46 @@ namespace MicroRabbitMQ.HRM.API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Employee employee)
         {
-            _employeeService.InsertEmployee(employee);
-            return Ok(employee);
+            try
+            {
+                _employeeService.InsertEmployee(employee);
+                return Ok("New Employee Saved Request Sent Successfully!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Request not done. Please contact Admin. Error Message: " + ex.Message);
+            }
+
         }
 
         // PUT: api/Employee/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Employee employee)
         {
-            _employeeService.UpdateEmployee(id, employee);
-            return Ok(employee);
+            try
+            {
+                _employeeService.UpdateEmployee(id, employee);
+                return Ok("Update Employee Request Sent Successfully!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Request not done. Please contact Admin. Error Message: " + ex.Message);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public bool Delete(int id)
+        public IActionResult Delete(int id)
         {
-            return _employeeService.DeleteEmployee(id);
+            try
+            {
+                _employeeService.DeleteEmployee(id);
+                return Ok("Delete Employee Request Sent Successfully!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Request not done. Please contact Admin. Error Message: " + ex.Message);
+            }
         }
     }
 }

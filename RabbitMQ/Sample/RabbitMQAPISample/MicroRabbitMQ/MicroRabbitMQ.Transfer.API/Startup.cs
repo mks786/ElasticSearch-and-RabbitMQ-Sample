@@ -81,7 +81,9 @@ namespace MicroRabbitMQ.Transfer.API
         private void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            eventBus.Subscriber<NewEmployeeCreatedEvent, TransferEventHandler>();
+            eventBus.Subscriber<NewEmployeeCreatedEvent, TransferNewEmployeeEventHandler>();
+            eventBus.Subscriber<UpdateEmployeeEvent, TransferUpdateEmployeeEventHandler>();
+            eventBus.Subscriber<DeleteEmployeeEvent, TransferDeleteEmployeeEventHandler>();
         }
     }
 }

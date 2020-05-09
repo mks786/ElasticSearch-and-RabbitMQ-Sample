@@ -31,16 +31,7 @@ namespace MicroRabbitMQ.HRM.Application.Services
 
         public void InsertEmployee(Employee employee)
         {
-            var createNewEmployee = new CreateNewEmployeeCommand(employee.FirstName,
-                                                          employee.LastName,
-                                                          employee.Age,
-                                                          employee.Salary);
-            _bus.SendCommand(createNewEmployee);
-        }
-
-        public void UpdateEmployee(int Id, Employee employee)
-        {
-            var createNewEmployee = new UpdateNewEmployeeCommand(employee.Id,
+            var createNewEmployee = new CreateNewEmployeeCommand(employee.Id,
                                                                  employee.FirstName,
                                                                  employee.LastName,
                                                                  employee.Age,
@@ -48,9 +39,20 @@ namespace MicroRabbitMQ.HRM.Application.Services
             _bus.SendCommand(createNewEmployee);
         }
 
-        public bool DeleteEmployee(int Id)
+        public void UpdateEmployee(int Id, Employee employee)
         {
-            return _employeeRepository.DeleteEmployee(Id);
+            var updateEmployee = new UpdateEmployeeCommand(employee.Id,
+                                                           employee.FirstName,
+                                                           employee.LastName,
+                                                           employee.Age,
+                                                           employee.Salary);
+            _bus.SendCommand(updateEmployee);
+        }
+
+        public void DeleteEmployee(int Id)
+        {
+            var deleteEmployee = new DeleteEmployeeCommand(Id);
+            _bus.SendCommand(deleteEmployee);
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using MicroRabbitMQ.Transfer.Domain.Models;
+using System.Collections.Generic;
 
 namespace MicroRabbitMQ.Transfer.Application.Interfaces
 {
     public interface IEmployeeTransferService
     {
-        void TransferInsertEmployee(Employee employee);
-        void TransferUpdateEmployee(int Id, Employee employee);
-        bool TransferDeleteEmployee(int id);
+        IEnumerable<Employee> GetTransferEmployees();
     }
 }

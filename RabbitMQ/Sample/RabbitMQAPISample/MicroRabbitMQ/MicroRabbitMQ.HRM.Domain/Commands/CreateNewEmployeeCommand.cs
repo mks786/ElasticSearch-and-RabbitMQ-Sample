@@ -5,10 +5,11 @@ using System.Text;
 
 namespace MicroRabbitMQ.HRM.Domain.Commands
 {
-    public class CreateNewEmployeeCommand : NewEmployeeCommand
+    public class CreateNewEmployeeCommand : EmployeeCommand
     {
-        public CreateNewEmployeeCommand(string firstName, string lastName, int age, int salary)
+        public CreateNewEmployeeCommand(int id, string firstName, string lastName, int age, int salary)
         {
+            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Age = age;

@@ -1,6 +1,7 @@
 ﻿using MicroRabbitMQ.Transfer.Data.Context;
 using MicroRabbitMQ.Transfer.Domain.Interfaces;
 using MicroRabbitMQ.Transfer.Domain.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MicroRabbitMQ.Transfer.Data.Repository
@@ -13,7 +14,7 @@ namespace MicroRabbitMQ.Transfer.Data.Repository
         {
             _context = context;
         }
-              
+
 
         public void TransferInsertEmployee(Employee employee)
         {
@@ -27,12 +28,16 @@ namespace MicroRabbitMQ.Transfer.Data.Repository
             _context.SaveChanges();
         }
 
-        public bool TransferDeleteEmployee(int id)
+        public void TransferDeleteEmployee(int id)
         {
             var employee = _context.Employees.FirstOrDefault(m => m.Id == id);
             _context.Employees.Remove(employee);
             _context.SaveChanges();
-            return true;
+        }
+
+        public IEnumerable<Employee> GetTransferEmployees()
+        {
+            return _context.Employees;
         }
     }
 }

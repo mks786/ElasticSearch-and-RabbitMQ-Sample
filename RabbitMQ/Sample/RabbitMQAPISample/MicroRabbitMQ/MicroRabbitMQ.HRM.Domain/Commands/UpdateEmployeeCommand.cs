@@ -5,12 +5,15 @@ using System.Text;
 
 namespace MicroRabbitMQ.HRM.Domain.Commands
 {
-    public class UpdateEmployeeCommand : Command
+    public class UpdateEmployeeCommand : EmployeeCommand
     {
-        public int Id { get; protected set; }
-        public string FirstName { get; protected set; }
-        public string LastName { get; protected set; }
-        public int Age { get; protected set; }
-        public int Salary { get; protected set; }
+        public UpdateEmployeeCommand(int id, string firstName, string lastName, int age, int salary)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Age = age;
+            Salary = salary;
+        }
     }
 }

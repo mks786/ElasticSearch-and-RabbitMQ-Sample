@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace MicroRabbitMQ.HRM.Domain.CommandHandlers
 {
-    public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, bool>
+    public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, bool>
     {
         private readonly IEventBus _bus;
 
-        public UpdateEmployeeCommandHandler(IEventBus bus)
+        public DeleteEmployeeCommandHandler(IEventBus bus)
         {
             _bus = bus;
         }
-        public Task<bool> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
+        public Task<bool> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
             //Publish event to RabbitMQ
-            _bus.Publish(new UpdateEmployeeEvent(request.Id, request.FirstName, request.LastName, request.Age, request.Salary));
+            _bus.Publish(new DeleteEmployeeEvent(request.Id));
 
             return Task.FromResult(true);
         }

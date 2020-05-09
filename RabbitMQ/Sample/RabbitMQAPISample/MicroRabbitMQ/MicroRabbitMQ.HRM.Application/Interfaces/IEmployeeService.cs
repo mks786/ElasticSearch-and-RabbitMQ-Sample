@@ -11,6 +11,6 @@ namespace MicroRabbitMQ.HRM.Application.Interfaces
         Employee GetEmployeeById(int Id);
         void InsertEmployee(Employee employee);
         void UpdateEmployee(int Id, Employee employee);
-        bool DeleteEmployee(int id);
+        void DeleteEmployee(int id);
     }
 }
